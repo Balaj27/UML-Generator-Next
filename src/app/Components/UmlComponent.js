@@ -1,21 +1,25 @@
 "use client";
 
 import React, { useState } from "react";
-import Navbar from "@/app/Components/Navbar";
 import {
   Box,
   TextField,
   Button,
   Typography,
-  Divider,
   CssBaseline,
+  Paper,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
+import DownloadIcon from "@mui/icons-material/Download";
 
-// Colors to match the navbar/sidebar theme in your screenshot
-const NAVBAR_BG = "#423dae";
-const SIDEBAR_BG = "#282828";
-const SIDEBAR_TEXT = "#fff";
-const SIDEBAR_WIDTH = 340;
+const SIDEBAR_BG = "#e9eef6";
+const SIDEBAR_TEXT = "#2e3a59";
+const SIDEBAR_WIDTH = 350;
+const INPUT_BG = "#f5f8fd";
+const BUTTON_BG = "#7da9e8";
+const BUTTON_TEXT = "#fff";
+const BUTTON_BG_HOVER = "#6698d4";
 
 function UmlComponent() {
   const [message, setMessage] = useState("");
@@ -23,17 +27,22 @@ function UmlComponent() {
   const [images, setImages] = useState([]);
   const [error, setError] = useState(null);
   const [initialSubmitted, setInitialSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Handles initial and edit submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
 
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message, editMessage }),
+        body: JSON.stringify({
+          message: !initialSubmitted ? message : message,
+          editMessage: initialSubmitted ? editMessage : "",
+        }),
       });
 
       if (!response.ok) {
@@ -51,164 +60,227 @@ function UmlComponent() {
       }
     } catch (err) {
       setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
-  return (
-    <Box sx={{ bgcolor: "#f8fafc", minHeight: "100vh" }}>
+  // Download handler
+  const handleDownload = async () => {
+  if (!images[0]) return;
+  try {
+    const imageResponse = await fetch(images[0], { mode: 'cors' });
+    const imageBlob = await imageResponse.blob();
+    const url = window.URL.createObjectURL(imageBlob);
+    const link = document.createElement("a");
+    link.href = url;
+    // Try to infer extension if possible, fallback to png
+    const extMatch = images[0].match(/\.(png|jpg|jpeg|svg|gif)(\?|$)/i);
+    const ext = extMatch ? extMatch[1] : "png";
+    link.download = `uml-diagram.${ext}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+  } catch (err) {
+    alert("Failed to download image.");
+  }
+};
 
+  return (
+    <Box sx={{ bgcolor: "#f5f7fb", minHeight: "100vh" }}>
+      <CssBaseline />
       <Box sx={{ display: "flex", minHeight: "100vh" }}>
         {/* Sidebar */}
         <Box
-          component="aside"
           sx={{
             width: SIDEBAR_WIDTH,
             bgcolor: SIDEBAR_BG,
             color: SIDEBAR_TEXT,
-            minHeight: "calc(100vh - 0px)",
-            pt: 0,
+            minHeight: "100vh",
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
-            position: "relative",
+            alignItems: "center",
+            boxShadow: "2px 0 12px 0 rgba(180, 200, 230, 0.13)",
+            borderTopRightRadius: 24,
+            borderBottomRightRadius: 24,
+            py: 6,
+            px: 0,
+            zIndex: 2,
           }}
         >
-          {/* Make sure sidebar starts below navbar */}
-          <Box sx={{ width: "100%", px: 3, pt: 10 }}>
-         
-            {/* Scenario input and Generate button */}
-            <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-              <Typography
-                sx={{
-                  color: "#bfcce2",
-                  fontWeight: 500,
-                  mb: 1,
-                  fontSize: 19,
-                  opacity: 0.7,
-                }}
-              >
-                Scenario
-              </Typography>
-              <TextField
-                variant="filled"
-                size="medium"
-                fullWidth
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                placeholder="Enter scenario"
-                required
-                disabled={initialSubmitted}
-                InputProps={{
-                  sx: {
-                    color: "#d9e3f0",
-                    background: "#232946",
-                    borderRadius: "8px",
-                    fontSize: 18,
-                    fontWeight: 400,
-                    "&::placeholder": {
-                      color: "#bfcce2",
-                      opacity: 0.8,
-                      fontSize: 16,
-                    },
-                  },
-                }}
-                sx={{
-                  mb: 3,
-                  input: { color: "#d9e3f0" },
-                }}
-              />
-              <Button
-                type="submit"
-                fullWidth
-                sx={{
-                  bgcolor: "#ffb0d4",
-                  color: "#232946",
-                  fontWeight: 700,
-                  fontSize: 20,
-                  borderRadius: "8px",
-                  textTransform: "none",
-                  boxShadow: "none",
-                  height: 56,
-                  mb: 2,
-                  "&:hover": {
-                    bgcolor: "#faa2c1",
-                  },
-                }}
-                disableElevation
-              >
-                Generate
-              </Button>
-            </form>
-            {/* Edit input and button (appears after first diagram is generated) */}
-            {initialSubmitted && (
-              <form onSubmit={handleSubmit} style={{ width: "100%" }}>
-                <Typography
-                  sx={{
-                    color: "#bfcce2",
-                    fontWeight: 500,
-                    mb: 1,
-                    fontSize: 19,
-                    opacity: 0.7,
-                    mt: 2,
-                  }}
-                >
-                  Edit Diagram
-                </Typography>
-                <TextField
-                  variant="filled"
-                  size="medium"
-                  fullWidth
-                  value={editMessage}
-                  onChange={(e) => setEditMessage(e.target.value)}
-                  placeholder="Describe your edit (e.g. add a class, change relation...)"
-                  InputProps={{
-                    sx: {
-                      color: "#d9e3f0",
-                      background: "#232946",
-                      borderRadius: "8px",
-                      fontSize: 17,
-                      fontWeight: 400,
-                      "&::placeholder": {
-                        color: "#bfcce2",
-                        opacity: 0.8,
-                        fontSize: 15,
+          <Paper
+            elevation={0}
+            sx={{
+              width: "87%",
+              bgcolor: "transparent",
+              boxShadow: "none",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              p: 0,
+            }}
+          >
+            <Typography
+              sx={{
+                color: "#4c5c7a",
+                fontWeight: 700,
+                mb: 5,
+                fontSize: 30,
+                letterSpacing: 1,
+                fontFamily: "inherit",
+                opacity: 0.93,
+                textAlign: "center",
+              }}
+            >
+              UML Generator
+            </Typography>
+
+            {/* Only show one form at a time */}
+            <form onSubmit={handleSubmit} style={{ width: "100%" }} autoComplete="off">
+              {!initialSubmitted ? (
+                <>
+                  <Typography
+                    sx={{
+                      color: "#627199",
+                      fontWeight: 500,
+                      mb: 1,
+                      fontSize: 19,
+                      opacity: 0.92,
+                    }}
+                  >
+                    Scenario
+                  </Typography>
+                  <TextField
+                    variant="outlined"
+                    size="medium"
+                    fullWidth
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Describe your scenario..."
+                    required
+                    multiline
+                    minRows={2}
+                    maxRows={8}
+                    InputProps={{
+                      sx: {
+                        color: "#384569",
+                        background: INPUT_BG,
+                        borderRadius: "11px",
+                        fontSize: 18,
+                        fontWeight: 400,
+                        "&::placeholder": {
+                          color: "#bfcce2",
+                          opacity: 0.9,
+                          fontSize: 16,
+                        },
+                        boxShadow: "0 1px 3px #e2e8f0",
                       },
-                    },
-                  }}
-                  sx={{
-                    mb: 2,
-                    input: { color: "#d9e3f0" },
-                  }}
-                />
-                <Button
-                  type="submit"
-                  fullWidth
-                  sx={{
-                    bgcolor: "#ffb0d4",
-                    color: "#232946",
-                    fontWeight: 700,
-                    fontSize: 20,
-                    borderRadius: "8px",
-                    textTransform: "none",
-                    boxShadow: "none",
-                    height: 52,
-                    mb: 2,
-                    "&:hover": {
-                      bgcolor: "#faa2c1",
-                    },
-                  }}
-                  disableElevation
-                >
-                  Submit Edit
-                </Button>
-              </form>
-            )}
+                    }}
+                    sx={{
+                      mb: 3,
+                      input: { color: "#384569" },
+                    }}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    sx={{
+                      bgcolor: BUTTON_BG,
+                      color: BUTTON_TEXT,
+                      fontWeight: 700,
+                      fontSize: 20,
+                      borderRadius: "10px",
+                      textTransform: "none",
+                      height: 54,
+                      mb: 2,
+                      letterSpacing: 0.5,
+                      boxShadow: "0 2px 8px 0 rgba(125,169,232,0.08)",
+                      "&:hover": {
+                        bgcolor: BUTTON_BG_HOVER,
+                      },
+                    }}
+                    disableElevation
+                    disabled={loading}
+                  >
+                    {loading ? "Generating..." : "Generate"}
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Typography
+                    sx={{
+                      color: "#627199",
+                      fontWeight: 500,
+                      mb: 1,
+                      fontSize: 19,
+                      opacity: 0.92,
+                    }}
+                  >
+                    Edit Diagram
+                  </Typography>
+                  <TextField
+                    variant="outlined"
+                    size="medium"
+                    fullWidth
+                    value={editMessage}
+                    onChange={(e) => setEditMessage(e.target.value)}
+                    placeholder="Describe your edit (e.g. add a class, change relation...)"
+                    multiline
+                    minRows={2}
+                    maxRows={8}
+                    InputProps={{
+                      sx: {
+                        color: "#384569",
+                        background: INPUT_BG,
+                        borderRadius: "11px",
+                        fontSize: 17,
+                        fontWeight: 400,
+                        "&::placeholder": {
+                          color: "#bfcce2",
+                          opacity: 0.8,
+                          fontSize: 15,
+                        },
+                        boxShadow: "0 1px 3px #e2e8f0",
+                      },
+                    }}
+                    sx={{
+                      mb: 3,
+                      input: { color: "#384569" },
+                    }}
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    sx={{
+                      bgcolor: BUTTON_BG,
+                      color: BUTTON_TEXT,
+                      fontWeight: 700,
+                      fontSize: 20,
+                      borderRadius: "10px",
+                      textTransform: "none",
+                      height: 54,
+                      mb: 2,
+                      letterSpacing: 0.5,
+                      boxShadow: "0 2px 8px 0 rgba(125,169,232,0.08)",
+                      "&:hover": {
+                        bgcolor: BUTTON_BG_HOVER,
+                      },
+                    }}
+                    disableElevation
+                    disabled={loading}
+                  >
+                    {loading ? "Submitting..." : "Submit Edit"}
+                  </Button>
+                </>
+              )}
+            </form>
             {error && (
               <Typography color="error" sx={{ mt: 1, fontWeight: 500 }}>
                 {error}
               </Typography>
             )}
-          </Box>
+          </Paper>
         </Box>
 
         {/* Main Content */}
@@ -218,21 +290,40 @@ function UmlComponent() {
             px: { xs: 1, sm: 3, md: 6 },
             pt: { xs: 6, sm: 7, md: 10 },
             minHeight: "100vh",
-            bgcolor: "#f8fafc",
+            bgcolor: "#f5f7fb",
+            padding: "3%"
           }}
         >
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 700,
-              color: "#181e34",
-              mb: 3,
-              mt: 1,
-              fontSize: { xs: 30, md: 38 },
-            }}
-          >
-            Diagram Preview
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 3, mt: 1 }}>
+            <Typography
+              variant="h3"
+              sx={{
+                fontWeight: 700,
+                color: "#2e3a59",
+                fontSize: { xs: 30, md: 38 },
+                mr: 2,
+              }}
+            >
+              Diagram Preview
+            </Typography>
+            {images.length > 0 && (
+              <Tooltip title="Download Diagram" arrow>
+                <IconButton
+                  aria-label="Download Diagram"
+                  sx={{
+                    bgcolor: "#f0f4fa",
+                    color: "#71a5ea",
+                    borderRadius: 2,
+                    ml: 1,
+                    "&:hover": { bgcolor: "#e3eaf6", color: "#3c7dca" },
+                  }}
+                  onClick={handleDownload}
+                >
+                  <DownloadIcon fontSize="large" />
+                </IconButton>
+              </Tooltip>
+            )}
+          </Box>
           <Box
             sx={{
               mt: 1,
@@ -240,10 +331,10 @@ function UmlComponent() {
               maxWidth: 900,
               minHeight: 450,
               background: "#fff",
-              borderRadius: 5,
-              border: "3px dashed #ffb0d4",
+              borderRadius: 10,
+              border: "3px dashed #b5c8e2",
               mx: "auto",
-              boxShadow: 0,
+              boxShadow: "0 2px 24px 0 rgba(125,169,232,0.08)",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
@@ -252,7 +343,6 @@ function UmlComponent() {
               pb: 2,
             }}
           >
-            {/* Preview icon or generated image */}
             {images.length === 0 ? (
               <Box sx={{ textAlign: "center", mt: 5 }}>
                 <img
@@ -262,10 +352,10 @@ function UmlComponent() {
                 />
                 <Typography
                   sx={{
-                    color: "#b8c1ec",
+                    color: "#b5c8e2",
                     fontSize: 24,
                     fontWeight: 500,
-                    opacity: 0.5,
+                    opacity: 0.7,
                   }}
                 >
                   Your UML diagram will appear here!
