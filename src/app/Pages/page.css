@@ -1,0 +1,42 @@
+/* Basic reset and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Make sure the html and body elements fill the entire viewport */
+  html, body {
+    height: 100%;
+  }
+  
+  /* Flex container to ensure footer is at the bottom */
+  .page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f5f5f5;  /* Full height of the viewport */
+  }
+  /* Content area should expand to fill available space */
+  .content-wrapper {
+    flex: 1;
+    background-color: #f5f5f5; 
+  }
+
+  .pricingBody {
+    display: flex;
+    justify-content: center; /* Centers the items horizontally */
+    align-items: center; /* Aligns the items vertically */
+    flex-wrap: wrap; /* Allows items to wrap to the next line if necessary */
+    max-width: 1000px; /* Optional: set a max-width to limit the container's width */
+    margin: 0 auto; /* Centers the container itself */
+    padding: 20px; /* Optional: add some padding for spacing */
+  }
+  
+  /* Styling for footer (optional) */
+  footer {
+    background-color: rgb(66, 61, 174);
+    padding: 20px;
+    text-align: center;
+  }
+  

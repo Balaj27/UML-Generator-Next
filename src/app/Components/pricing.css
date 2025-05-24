@@ -1,0 +1,90 @@
+/* Main card container */
+.pricing-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 12px; /* Ensure the overall card has rounded corners */
+    width: 320px;
+    margin: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #ffffff;
+    padding: 2%;
+  }
+  
+  .pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Header styling */
+  .card-header {
+    background-color: rgb(66, 61, 174);
+    color: white;
+    padding: 30px 20px;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 12px; /* Rounded top left corner */
+    border-top-right-radius: 12px; /* Rounded top right corner */
+  }
+  
+  .card-header h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  .card-header p {
+    margin: 5px 0 0;
+    font-size: 1.2rem;
+    font-weight: 300;
+  }
+  
+  /* Body styling */
+  .card-body {
+    padding: 20px 30px;
+  }
+  
+  .card-body ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .card-body li {
+    margin: 10px 0;
+    font-size: 1rem;
+    color: #555;
+    position: relative;
+    padding-left: 20px;
+  }
+  
+  /* Icon before each list item */
+  .card-body li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: rgb(66, 61, 174);
+    font-weight: bold;
+  }
+  
+  /* Footer styling */
+  .card-footer {
+    padding: 20px;
+    background-color: #f7f7f7;
+  }
+  
+  .card-button {
+    background-color: rgb(66, 61, 174);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+  }
+  
+  .card-button:hover {
+    background-color: rgb(56, 51, 164);
+  }
+  
