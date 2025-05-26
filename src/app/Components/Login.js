@@ -6,7 +6,6 @@ import Link from "next/link";
 import { TextField, Button, Box, Typography, Alert } from "@mui/material";
 import { auth, googleProvider, signInWithPopup, signInWithEmailAndPassword } from '../config/firebase';
 
-
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -92,8 +91,9 @@ function Login() {
       </Box>
       <Box className="login-links" sx={{ mt: 3, textAlign: "center" }}>
         <Link href="/Pages/Signup" passHref>
+          {/* Replace single quote with &apos; to resolve react/no-unescaped-entities */}
           <Typography variant="body2" color="primary" component="span" sx={{ cursor: "pointer" }}>
-            Don't have an account? Sign up!
+            Don&apos;t have an account? Sign up!
           </Typography>
         </Link>
       </Box>

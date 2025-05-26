@@ -58,8 +58,8 @@ function UmlComponent() {
       } else {
         setError("No image URL received");
       }
-    } catch (err) {
-      setError(err.message);
+    } catch (error) {
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -67,25 +67,25 @@ function UmlComponent() {
 
   // Download handler
   const handleDownload = async () => {
-  if (!images[0]) return;
-  try {
-    const imageResponse = await fetch(images[0], { mode: 'cors' });
-    const imageBlob = await imageResponse.blob();
-    const url = window.URL.createObjectURL(imageBlob);
-    const link = document.createElement("a");
-    link.href = url;
-    // Try to infer extension if possible, fallback to png
-    const extMatch = images[0].match(/\.(png|jpg|jpeg|svg|gif)(\?|$)/i);
-    const ext = extMatch ? extMatch[1] : "png";
-    link.download = `uml-diagram.${ext}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    setTimeout(() => window.URL.revokeObjectURL(url), 1000);
-  } catch (err) {
-    alert("Failed to download image.");
-  }
-};
+    if (!images[0]) return;
+    try {
+      const imageResponse = await fetch(images[0], { mode: 'cors' });
+      const imageBlob = await imageResponse.blob();
+      const url = window.URL.createObjectURL(imageBlob);
+      const link = document.createElement("a");
+      link.href = url;
+      // Try to infer extension if possible, fallback to png
+      const extMatch = images[0].match(/\.(png|jpg|jpeg|svg|gif)(\?|$)/i);
+      const ext = extMatch ? extMatch[1] : "png";
+      link.download = `uml-diagram.${ext}`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+    } catch {
+      alert("Failed to download image.");
+    }
+  };
 
   return (
     <Box sx={{ bgcolor: "#f5f7fb", minHeight: "100vh" }}>
@@ -302,7 +302,6 @@ function UmlComponent() {
                 color: "#2e3a59",
                 fontSize: { xs: 30, md: 38 },
                 mr: 2,
-                
               }}
             >
               Diagram Preview
