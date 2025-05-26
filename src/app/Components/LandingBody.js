@@ -11,7 +11,7 @@ function LandingBody(){
         <p>
           Transform Ideas into Visual Masterpieces with seamless UML Generation!
         </p>
-        <a href='/generate'><button className="register-button">Generate Now!</button></a>
+        <a href='/Pages/UML'><button className="register-button">Generate Now!</button></a>
       </div>
       <div className="banner-image">
         <img src='https://d2ms8rpfqc4h24.cloudfront.net/software_architecture_approach_e14db643bb.png' alt="Illustration" style={{}}/>

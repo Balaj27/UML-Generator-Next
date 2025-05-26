@@ -92,7 +92,7 @@ function Services() {
               </CardActions>
               <Collapse in={activeCard === 'uml'} timeout="auto" unmountOnExit>
                 <List dense>
-                  {umlServices.map((service, idx) => (
+                  {umlServices.map((service) => (
                     <ListItem key={service} sx={{ justifyContent: "center" }}>
                       <ListItemIcon sx={{ minWidth: 30 }}>
                         <DeviceHubIcon color="primary" fontSize="small" />
@@ -147,7 +147,7 @@ function Services() {
               </CardActions>
               <Collapse in={activeCard === 'non-uml'} timeout="auto" unmountOnExit>
                 <List dense>
-                  {nonUmlServices.map((service, idx) => (
+                  {nonUmlServices.map((service) => (
                     <ListItem key={service} sx={{ justifyContent: "center" }}>
                       <ListItemIcon sx={{ minWidth: 30 }}>
                         <DeviceHubIcon color="primary" fontSize="small" />

@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 // It's recommended to use your API key via an environment variable for security.
 // In a .env.local file at your project root, add: GeminiApi=YOUR_GEMINI_API_KEY
-const apiKey = process.env.GeminiApi || "AIzaSyDqF8aBvSvz2WvgJVGPi8_Kgcd5W4D6iCE";
+const apiKey = process.env.GeminiApi || "AIzaSyCmaEMHXr0febZMxLLqco8kQRPv6bg7KDw";
 const genAI = new GoogleGenerativeAI(apiKey);
 
 const model = genAI.getGenerativeModel({

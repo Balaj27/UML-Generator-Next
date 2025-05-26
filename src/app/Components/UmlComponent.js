@@ -291,10 +291,10 @@ function UmlComponent() {
             pt: { xs: 6, sm: 7, md: 10 },
             minHeight: "100vh",
             bgcolor: "#f5f7fb",
-            padding: "3%"
+            paddingBottom: "3%",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", mb: 3, mt: 1 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 3, mt: 1, marginTop: '-5%' }}>
             <Typography
               variant="h3"
               sx={{
@@ -302,6 +302,7 @@ function UmlComponent() {
                 color: "#2e3a59",
                 fontSize: { xs: 30, md: 38 },
                 mr: 2,
+                
               }}
             >
               Diagram Preview

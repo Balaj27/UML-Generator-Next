@@ -1,6 +1,5 @@
 import React from 'react';
 import Navbar from './Components/Navbar';
-import UmlComponent from './Components/UmlComponent';
 import LandingBody from './Components/LandingBody';
 import Footer from './Components/Footer';
 import './Pages/page.css';
