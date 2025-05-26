@@ -282,7 +282,8 @@ export async function POST(req) {
         } else {
           throw new Error("Invalid PlantUML code");
         }
-      } catch (err) {
+      } catch {
+        // No need to capture the 'err' variable since it's not used
         retryCount++;
       }
     }
