@@ -22,7 +22,7 @@ function Navbar() {
       <AppBar position="static" sx={{ backgroundColor: 'rgb(66, 61, 174)' }}>
         <Toolbar>
           <Typography variant="h6" component={Link} href="/" sx={{ color: "white", textDecoration: "none", flexGrow: 1, fontWeight: 600 }}>
-            UML Generator
+            SmartUML
           </Typography>
           {/* Desktop Links */}
           <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 2, ml: "auto" }}>

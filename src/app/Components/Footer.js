@@ -24,11 +24,11 @@ function Footer() {
                         '&:hover': { textDecoration: 'underline' }
                     }}
                 >
-                    UML Generator
+                    SmartUML
                 </Typography>
             </Link>
             <Typography variant="body2" sx={{ mt: 1, color:"white" }}>
-                All Rights Reserved Ⓒ UML GENERATOR
+                All Rights Reserved Ⓒ SmartUML
             </Typography>
         </Box>
     );
