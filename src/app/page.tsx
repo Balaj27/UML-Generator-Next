@@ -4,6 +4,7 @@ import LandingBody from './Components/LandingBody';
 import Footer from './Components/Footer';
 import './Pages/page.css';
 import Services from './Components/Services';
+import Work from './Components/Work';
 
 function UmlPage() {
   return (
@@ -12,6 +13,7 @@ function UmlPage() {
       <div className="content-wrapper">
         <LandingBody />
         <Services />
+        <Work />
       </div>
       <Footer />
     </div>
