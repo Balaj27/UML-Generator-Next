@@ -45,7 +45,7 @@ const AboutUs = () => {
           <Typography variant="body1" paragraph>
             smartUML uses advanced AI models to understand your text input and convert it into structured diagrams such as:
           </Typography>
-          <ul>
+          <ul  style={{ listStyleType: 'disc', paddingLeft: '10%' }}>
             <li><Typography variant="body1">Sequence Diagram</Typography></li>
             <li><Typography variant="body1">Use Case Diagram</Typography></li>
             <li><Typography variant="body1">Class Diagram</Typography></li>
@@ -65,7 +65,7 @@ const AboutUs = () => {
           <Typography variant="h5" gutterBottom color="rgb(66, 61, 174)">
             💡 Why smartUML?
           </Typography>
-          <ul>
+          <ul style={{ listStyleType: 'disc', paddingLeft: '10%' }}>
             <li><Typography variant="body1">Save Time: Focus on building software, not drawing boxes.</Typography></li>
             <li><Typography variant="body1">Boost Productivity: Generate diagrams in seconds, not hours.</Typography></li>
             <li><Typography variant="body1">Reduce Errors: Eliminate human mistakes in structure and syntax.</Typography></li>
