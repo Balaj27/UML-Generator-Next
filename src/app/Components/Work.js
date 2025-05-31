@@ -17,10 +17,8 @@ const Work = () => {
         minHeight: '70vh',
       }}
     >
-      <Card sx={{ maxWidth: 800, width: '100%', boxShadow: 3, borderRadius: 3 }}>
-        <CardContent>
-          <Typography
-            variant="h5"
+        <Typography
+            variant="h4"
             component="div"
             sx={{
               fontWeight: 600,
@@ -29,9 +27,11 @@ const Work = () => {
               textAlign: 'center',
             }}
           >
-            Website Demo Video
+            Demo of SmartUML
           </Typography>
-
+      <Card sx={{ maxWidth: 800, width: '100%', boxShadow: 3, borderRadius: 3 }}>
+        <CardContent>
+          
           <Box
             component="video"
             src="assets/Demo.mp4"

@@ -113,7 +113,7 @@ function UmlComponent() {
             fullWidth
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Describe your scenario..."
+            placeholder="Describe your scenario(1 diagram per request)..."
             required
             multiline
             minRows={2}

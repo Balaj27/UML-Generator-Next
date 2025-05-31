@@ -42,8 +42,14 @@ function Services() {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", py: 6, px: 2 }}>
-      <Typography variant="h4" sx={{ fontWeight: 700, textAlign: "center", mb: 1 }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", py: 0, px: 2 }}>
+      <Typography  variant="h4"
+            component="div"
+            sx={{
+              fontWeight: 600,
+              mb: 2,
+              color: 'rgb(66, 61, 174)', // same as your navbar
+              textAlign: 'center'}}>
         Our Services
       </Typography>
       <Typography variant="subtitle1" sx={{ textAlign: "center", mb: 5 }}>

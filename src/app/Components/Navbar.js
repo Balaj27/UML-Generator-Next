@@ -14,6 +14,7 @@ function Navbar() {
     { label: "Home", href: "/" },
     { label: "Generate", href: "/Pages/UML" },
     { label: "Pricing", href: "/Pages/Pricing" },
+    { label: "About Us", href: "/Pages/About" },
     { label: "Login", href: "/Pages/Login" },
   ];
 
