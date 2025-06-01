@@ -1,172 +1,81 @@
 "use client";
-import React, { useState } from 'react';
-import { Box, Typography, Card, CardContent, CardActions, Button, Collapse, List, ListItem, ListItemIcon, ListItemText, Grid, Avatar } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ListAltIcon from '@mui/icons-material/ListAlt';
+import React from 'react';
+import { Box, Typography, List, ListItem, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import DeviceHubIcon from '@mui/icons-material/DeviceHub';
 
 const umlServices = [
-  "Sequence Diagram",
-  "Use Case Diagram",
-  "Class Diagram",
-  "Object Diagram",
-  "Activity Diagram (Beta)",
-  "Component Diagram",
-  "Deployment Diagram",
-  "State Diagram"
-];
-
-const nonUmlServices = [
-  "JSON & YAML Data Visualization",
-  "EBNF Diagram",
-  "Regex Diagram",
-  "Network Diagram (nwdiag)",
-  "Archimate Diagram",
-  "Specification and Description Language (SDL)",
-  "Ditaa Diagram",
-  "Gantt Diagram",
-  "Chronology Diagram",
-  "MindMap Diagram",
-  "WBS Diagram",
-  "Mathematics with AsciiMath or JLaTeXMath",
-  "Information Engineering (IE) Diagram",
-  "Entity Relationship (ER) Diagram"
+  {
+    name: "Sequence Diagram",
+    description: "Illustrates how objects interact in a particular sequence of time.",
+  },
+  {
+    name: "Use Case Diagram",
+    description: "Represents the functional requirements of a system from a user perspective.",
+  },
+  {
+    name: "Class Diagram",
+    description: "Shows the static structure of a system including classes and relationships.",
+  },
+  {
+    name: "Object Diagram",
+    description: "Depicts a snapshot of objects in a system at a specific time.",
+  },
+  {
+    name: "Activity Diagram (Beta)",
+    description: "Describes workflows and processes using activities and transitions.",
+  },
+  {
+    name: "Component Diagram",
+    description: "Visualizes the organization and dependencies of software components.",
+  },
+  {
+    name: "Deployment Diagram",
+    description: "Shows the physical deployment of artifacts on nodes.",
+  },
+  {
+    name: "State Diagram",
+    description: "Depicts the different states of an object and transitions between those states.",
+  },
+  {
+    name: "Entity Relationship (ER) Diagram",
+    description: "Models the logical structure of databases using entities, attributes, and relationships.",
+  },
 ];
 
 function Services() {
-  const [activeCard, setActiveCard] = useState(null);
-
-  const toggleCard = (card) => {
-    setActiveCard(activeCard === card ? null : card);
-  };
-
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", py: 0, px: 2 }}>
-      <Typography  variant="h4"
-            component="div"
-            sx={{
-              fontWeight: 600,
-              mb: 2,
-              color: 'rgb(66, 61, 174)', // same as your navbar
-              textAlign: 'center'}}>
-        Our Services
+    <Box sx={{ maxWidth: 1000, mx: "auto", px: 2, py: 5 }}>
+      <Typography variant="h3" component="h1" sx={{ fontWeight: 700, textAlign: "center", mb: 3, color: 'rgb(66, 61, 174)' }}>
+        Supported Diagram Types
       </Typography>
-      <Typography variant="subtitle1" sx={{ textAlign: "center", mb: 5 }}>
-        Explore the variety of diagrams we support:
+      <Typography variant="body1" sx={{ textAlign: "center", mb: 4 }}>
+        Our platform supports a wide range of diagram types focused on software engineering and system design. Below is a comprehensive list of supported UML and related diagrams with brief explanations to help you understand their usage.
       </Typography>
-      <Grid container spacing={4} justifyContent="center">
-        {/* UML Services Card */}
-        <Grid item xs={12} md={6}>
-          <Card
-            sx={{
-              borderRadius: 3,
-              boxShadow: 4,
-              transition: "transform 0.3s, box-shadow 0.3s",
-              "&.MuiCard-root:hover": {
-                transform: "translateY(-8px)",
-                boxShadow: 8,
-              },
-              textAlign: "center"
-            }}
-            raised={activeCard === 'uml'}
-          >
-            <CardContent sx={{ pb: 1 }}>
-              <Avatar
-                src="https://cdn-icons-png.flaticon.com/512/5485/5485712.png"
-                alt="UML Diagrams"
-                sx={{ width: 70, height: 70, mx: "auto", mb: 2, bgcolor: 'white' }}
-              >
-                <ListAltIcon sx={{ fontSize: 50 }} />
-              </Avatar>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
-                UML Diagrams
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                Create well-structured UML diagrams for your projects.
-              </Typography>
-              <CardActions sx={{ justifyContent: "center" }}>
-                <Button
-                  endIcon={activeCard === 'uml' ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                  variant="outlined"
-                  onClick={() => toggleCard('uml')}
-                  sx={{ borderRadius: 2, fontWeight: 500 }}
-                  color="primary"
-                >
-                  {activeCard === 'uml' ? "Hide Services" : "Show Services"}
-                </Button>
-              </CardActions>
-              <Collapse in={activeCard === 'uml'} timeout="auto" unmountOnExit>
-                <List dense>
-                  {umlServices.map((service) => (
-                    <ListItem key={service} sx={{ justifyContent: "center" }}>
-                      <ListItemIcon sx={{ minWidth: 30 }}>
-                        <DeviceHubIcon color="primary" fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary={service} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-            </CardContent>
-          </Card>
-        </Grid>
-        {/* Non-UML Services Card */}
-        <Grid item xs={12} md={6}>
-          <Card
-            sx={{
-              borderRadius: 3,
-              boxShadow: 4,
-              transition: "transform 0.3s, box-shadow 0.3s",
-              "&.MuiCard-root:hover": {
-                transform: "translateY(-8px)",
-                boxShadow: 8,
-              },
-              textAlign: "center"
-            }}
-            raised={activeCard === 'non-uml'}
-          >
-            <CardContent sx={{ pb: 1 }}>
-              <Avatar
-                src="https://static.vecteezy.com/system/resources/previews/020/814/240/non_2x/database-icon-for-your-website-design-logo-app-ui-free-vector.jpg"
-                alt="Non-UML Diagrams"
-                sx={{ width: 70, height: 70, mx: "auto", mb: 2, bgcolor: 'white' }}
-              >
-                <DeviceHubIcon sx={{ fontSize: 50 }} />
-              </Avatar>
-              <Typography variant="h5" fontWeight={600} sx={{ mb: 1 }}>
-                Non-UML Diagrams
-              </Typography>
-              <Typography variant="body1" sx={{ mb: 2 }}>
-                Explore a variety of other diagram types beyond UML.
-              </Typography>
-              <CardActions sx={{ justifyContent: "center" }}>
-                <Button
-                  endIcon={activeCard === 'non-uml' ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-                  variant="outlined"
-                  onClick={() => toggleCard('non-uml')}
-                  sx={{ borderRadius: 2, fontWeight: 500 }}
-                  color="primary"
-                >
-                  {activeCard === 'non-uml' ? "Hide Services" : "Show Services"}
-                </Button>
-              </CardActions>
-              <Collapse in={activeCard === 'non-uml'} timeout="auto" unmountOnExit>
-                <List dense>
-                  {nonUmlServices.map((service) => (
-                    <ListItem key={service} sx={{ justifyContent: "center" }}>
-                      <ListItemIcon sx={{ minWidth: 30 }}>
-                        <DeviceHubIcon color="primary" fontSize="small" />
-                      </ListItemIcon>
-                      <ListItemText primary={service} />
-                    </ListItem>
-                  ))}
-                </List>
-              </Collapse>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Grid>
+      <Divider sx={{ mb: 4 }} />
+      <Typography variant="h4" component="h2" sx={{ fontWeight: 600, mb: 3, color: 'rgb(66, 61, 174)' }} >
+        UML and Related Diagrams
+      </Typography>
+      <List>
+        {umlServices.map((service) => (
+          <ListItem key={service.name} alignItems="flex-start" sx={{ mb: 2 }}>
+            <ListItemIcon>
+              <DeviceHubIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText
+              primary={
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  {service.name}
+                </Typography>
+              }
+              secondary={
+                <Typography variant="body2" color="text.secondary">
+                  {service.description}
+                </Typography>
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
     </Box>
   );
 }

@@ -71,26 +71,52 @@ function UmlComponent() {
   };
 
   // Download handler
-  const handleDownload = async () => {
-    if (!images[0]) return;
-    try {
-      const imageResponse = await fetch(images[0], { mode: 'cors' });
-      const imageBlob = await imageResponse.blob();
-      const url = window.URL.createObjectURL(imageBlob);
-      const link = document.createElement("a");
-      link.href = url;
-      // Try to infer extension if possible, fallback to png
+const handleDownload = async () => {
+  if (!images[0]) return;
+
+  try {
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Important for canvas drawing
+    img.src = images[0];
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+
+      // Get image extension or fallback
       const extMatch = images[0].match(/\.(png|jpg|jpeg|svg|gif)(\?|$)/i);
       const ext = extMatch ? extMatch[1] : "png";
-      link.download = `uml-diagram.${ext}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      setTimeout(() => window.URL.revokeObjectURL(url), 1000);
-    } catch {
-      alert("Failed to download image.");
-    }
-  };
+
+      // Convert canvas to blob and trigger download
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          alert("Failed to generate image blob.");
+          return;
+        }
+
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `uml-diagram.${ext}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+      }, `image/${ext === "jpg" ? "jpeg" : ext}`);
+    };
+
+    img.onerror = () => {
+      alert("Failed to load image.");
+    };
+  } catch (err) {
+    alert("Unexpected error occurred during download.");
+  }
+};
 
   const renderInputForm = () => (
     <form onSubmit={handleSubmit} style={{ width: "100%" }} autoComplete="off">
