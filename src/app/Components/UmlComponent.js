@@ -113,7 +113,7 @@ const handleDownload = async () => {
     img.onerror = () => {
       alert("Failed to load image.");
     };
-  } catch (err) {
+  } catch {
     alert("Unexpected error occurred during download.");
   }
 };
