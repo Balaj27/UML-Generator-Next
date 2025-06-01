@@ -75,48 +75,36 @@ const handleDownload = async () => {
   if (!images[0]) return;
 
   try {
-    const img = new Image();
-    img.crossOrigin = "anonymous"; // Important for canvas drawing
-    img.src = images[0];
+    const imageResponse = await fetch(images[0], { mode: 'cors' });
+    const imageBlob = await imageResponse.blob();
+    const url = window.URL.createObjectURL(imageBlob);
 
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
+    if (isMobile) {
+      // On mobile, open in a new tab so the user can manually save
+      window.open(url, '_blank');
+    } else {
+      // On desktop, trigger a download
+      const link = document.createElement("a");
+      link.href = url;
 
-      // Get image extension or fallback
       const extMatch = images[0].match(/\.(png|jpg|jpeg|svg|gif)(\?|$)/i);
       const ext = extMatch ? extMatch[1] : "png";
+      link.download = `uml-diagram.${ext}`;
 
-      // Convert canvas to blob and trigger download
-      canvas.toBlob((blob) => {
-        if (!blob) {
-          alert("Failed to generate image blob.");
-          return;
-        }
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `uml-diagram.${ext}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-
-        setTimeout(() => URL.revokeObjectURL(url), 1000);
-      }, `image/${ext === "jpg" ? "jpeg" : ext}`);
-    };
-
-    img.onerror = () => {
-      alert("Failed to load image.");
-    };
-  } catch {
-    alert("Unexpected error occurred during download.");
+      setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+    }
+  } catch (error) {
+    console.error("Download error:", error);
+    alert("Failed to download the image. Please try again.");
   }
 };
+
 
   const renderInputForm = () => (
     <form onSubmit={handleSubmit} style={{ width: "100%" }} autoComplete="off">
