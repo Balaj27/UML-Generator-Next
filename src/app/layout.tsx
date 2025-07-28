@@ -15,6 +15,25 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SmartUML",
+  keywords: [
+    "UML diagram generator",
+    "AI-powered UML diagrams",
+    "PlantUML",
+    "AI Uml",
+    "UML diagram tool",
+    "software arcghitecture",
+    "system design",
+    "sequence diagrams",
+    "class diagrams",
+    "use case diagrams",
+    "activity diagrams",
+    "state charts",
+    "UML diagramming",
+    "visualization tool",
+    "smartuml",
+    "uml generator",
+    "uml editor",
+    "uml design tool",]
   description: "SmartUML is an AI-powered UML diagram generator that transforms your plain text prompts into clean, professional UML diagrams in seconds. Built with Next.js and powered by the PlantUML engine, SmartUML supports a wide range of diagram types including class diagrams, sequence diagrams, use case diagrams, activity diagrams, state charts, and more. Whether you\'re a software engineer, system architect, student, or project manager, SmartUML makes it easy to visualize system designs, document workflows, and communicate complex architectures with clarity. Simply enter your description, and SmartUML will generate high-quality diagrams that you can view, edit, or download instantly. Say goodbye to manual diagramming. Start creating smarter, faster, and better with SmartUML — your intelligent UML diagram assistant.",
 };
 
